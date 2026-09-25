@@ -16,7 +16,7 @@ Environment telemetry
 → Decision engine
 → Health state
 → CSV telemetry
-→ Future visualization
+→ 3D mission visualization
 
 ### Implemented in v1.4
 
@@ -64,6 +64,23 @@ This repository does not claim medical diagnosis, clinical validation, or operat
 ### Authorship
 
 **Taissiane Thais dos Santos** is the identified developer of this project.
+
+### v1.5 — 3D mission visualization
+
+The v1.5 visualization reads the v1.4 telemetry contract and renders an animated 3D mission telemetry trajectory. The visualization separates environmental stress from a human-stress representation and displays the current health state without changing the v1.4 decision engine.
+
+Install and run:
+
+    python -m pip install -r requirements-v1.5.txt
+    python src/astroguard_v1_5.py
+
+The visualization is research/demo software. Derived stress indices are not medical scores and are not flight-qualified decision logic.
+
+See:
+
+- `docs/v1.5_3d_mission_visualization.md`
+- `docs/v1.5_architecture.md`
+- `src/astroguard_v1_5.py`
 
 ### Evaluation
 
