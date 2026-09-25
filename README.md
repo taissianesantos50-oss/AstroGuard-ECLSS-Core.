@@ -82,6 +82,25 @@ See:
 - `docs/v1.5_architecture.md`
 - `src/astroguard_v1_5.py`
 
+### v1.6 — Web mission dashboard
+
+v1.6 adds a browser-based mission interface built on the verified v1.4 telemetry scenario and v1.5 visualization concepts. It provides a live-style dashboard with health state, environmental telemetry, human telemetry, visualization-only stress indices, a time-series chart, actuator-state display and the current telemetry packet.
+
+Open locally:
+
+    dashboard/index.html
+
+No build step is required. The demonstration telemetry is embedded in dashboard/app.js, so the interface can be opened directly in a modern browser.
+
+See:
+
+- dashboard/index.html
+- dashboard/styles.css
+- dashboard/app.js
+- docs/v1.6_web_dashboard.md
+
+The dashboard is explicitly a simulation/research prototype. It does not diagnose astronauts, replace clinical systems, or issue flight commands.
+
 ### Evaluation
 
 See:
