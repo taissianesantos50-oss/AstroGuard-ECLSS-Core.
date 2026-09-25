@@ -22,37 +22,56 @@ Environment telemetry
 
 - Environmental simulation: O2, pressure, temperature and actuator states.
 - Human telemetry simulation: heart rate, SpO2, body temperature, respiratory rate, fatigue and well-being.
-- Transparent health states: NORMAL, ATTENTION and CRITICAL.
+- Deterministic health states: NORMAL, ATTENTION and CRITICAL.
+- Integrated verification scenario that exercises all three states.
 - Combined mission telemetry CSV.
-- Deterministic unit tests.
-- Documentation of protocol and limitations.
+- Unit and robustness tests.
+- Technical evaluation report and telemetry protocol documentation.
 
-### Run
+### Build and run
 
-Compile the v1.4 simulation:
+Compile with strict warnings enabled:
 
-    gcc src/health_monitor.c src/astroguard_v1_4.c -I src -o astroguard_v1_4
+    gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/astroguard_v1_4.c -I src -o astroguard_v1_4
 
 Run:
 
     ./astroguard_v1_4
 
-The program generates telemetry_v1_4.csv.
+The program generates `telemetry_v1_4.csv`.
 
 ### Test
 
-    gcc src/health_monitor.c tests/test_health_monitor.c -I src -o test_health_monitor
+    gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c tests/test_health_monitor.c -I src -o test_health_monitor
     ./test_health_monitor
+
+Expected result: exit code 0.
+
+### Integrated verification scenario
+
+The demonstration intentionally produces:
+
+    NORMAL → ATTENTION → CRITICAL
+
+This is a synthetic software-verification scenario designed to exercise the decision engine. It is not a clinical or operational mission scenario.
 
 ### Scientific and safety scope
 
-All physiological values and decision thresholds in this version are synthetic demonstration parameters. They are not medical measurements, clinical thresholds, Artemis mission measurements, or flight-qualified safety logic.
+All physiological values, scenario transitions and decision thresholds in this version are synthetic demonstration parameters. They are not medical measurements, clinical thresholds, Artemis mission measurements, or flight-qualified safety logic.
 
 This repository does not claim medical diagnosis, clinical validation, or operational spacecraft certification.
 
 ### Authorship
 
 **Taissiane Thais dos Santos** is the identified developer of this project.
+
+### Evaluation
+
+See:
+
+- `docs/v1.4_evaluation_report.md`
+- `docs/telemetry_protocol_v1_4.md`
+- `telemetry/sample_health_telemetry.csv`
 
 ### Roadmap
 
