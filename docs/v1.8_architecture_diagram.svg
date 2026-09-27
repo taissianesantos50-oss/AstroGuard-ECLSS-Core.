@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <rect width="1400" height="900" fill="#071426"/>
+  <text x="60" y="62" fill="#ffffff" font-family="Arial,sans-serif" font-size="32" font-weight="700">AstroGuard ECLSS Core — Arquitetura do Sistema</text>
+  <text x="60" y="96" fill="#53d7ff" font-family="Arial,sans-serif" font-size="18">v1.8 Final · Simulation / Research Prototype</text>
+  <text x="1120" y="62" fill="#ffffff" font-family="Arial,sans-serif" font-size="18">Taissiane Thais dos Santos</text>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="45" y="150" width="250" height="230" rx="18" fill="#0b2440" stroke="#28b9ff" stroke-width="3"/>
+    <text x="70" y="185" fill="#55d8ff" font-size="22" font-weight="700">ECLSS · AMBIENTE</text>
+    <text x="70" y="225" fill="#fff" font-size="18">O₂ · Pressão · Temperatura</text>
+    <text x="70" y="258" fill="#fff" font-size="18">CO₂ · Atuadores</text>
+    <text x="70" y="310" fill="#9fc4df" font-size="15">Dados sintéticos de suporte à vida</text>
+
+    <rect x="45" y="430" width="250" height="230" rx="18" fill="#21153d" stroke="#a86cff" stroke-width="3"/>
+    <text x="70" y="465" fill="#d7b5ff" font-size="22" font-weight="700">HUMAN · TELEMETRY</text>
+    <text x="70" y="505" fill="#fff" font-size="18">HR · SpO₂ · Temp. corporal</text>
+    <text x="70" y="538" fill="#fff" font-size="18">Respiração · Fadiga</text>
+    <text x="70" y="571" fill="#fff" font-size="18">Bem-estar</text>
+    <text x="70" y="621" fill="#c9b8e8" font-size="15">Dados fisiológicos sintéticos</text>
+
+    <rect x="380" y="250" width="290" height="300" rx="18" fill="#08283b" stroke="#22c7ff" stroke-width="3"/>
+    <text x="415" y="292" fill="#55d8ff" font-size="25" font-weight="700">HEALTH MONITORING</text>
+    <text x="415" y="335" fill="#fff" font-size="18">• Filtragem de dados</text>
+    <text x="415" y="368" fill="#fff" font-size="18">• Normalização</text>
+    <text x="415" y="401" fill="#fff" font-size="18">• Análise de limites</text>
+    <text x="415" y="434" fill="#fff" font-size="18">• Métricas e anomalias</text>
+    <text x="415" y="482" fill="#8fb8d0" font-size="15">C11 / Python · processamento</text>
+
+    <rect x="745" y="250" width="280" height="300" rx="18" fill="#172d0c" stroke="#8de83f" stroke-width="3"/>
+    <text x="780" y="292" fill="#b6ff72" font-size="25" font-weight="700">DECISION ENGINE</text>
+    <text x="780" y="335" fill="#fff" font-size="18">• Regras determinísticas</text>
+    <text x="780" y="368" fill="#fff" font-size="18">• Classificação de risco</text>
+    <text x="780" y="401" fill="#fff" font-size="18">• Alertas e recomendações</text>
+    <rect x="780" y="438" width="210" height="34" rx="8" fill="#43b51c"/><text x="885" y="461" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">NORMAL</text>
+    <rect x="780" y="480" width="210" height="34" rx="8" fill="#f0a31a"/><text x="885" y="503" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">ATTENTION</text>
+    <rect x="780" y="522" width="210" height="34" rx="8" fill="#d83b3b"/><text x="885" y="545" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">CRITICAL</text>
+
+    <rect x="1080" y="150" width="270" height="210" rx="18" fill="#171340" stroke="#b36cff" stroke-width="3"/>
+    <text x="1110" y="188" fill="#d6b5ff" font-size="23" font-weight="700">VISUALIZAÇÃO 3D</text>
+    <text x="1110" y="230" fill="#fff" font-size="17">Trajetória de missão</text>
+    <text x="1110" y="260" fill="#fff" font-size="17">Estado humano/ambiental</text>
+    <text x="1110" y="290" fill="#fff" font-size="17">Interface somente leitura</text>
+    <text x="1110" y="326" fill="#c7b8e4" font-size="14">Métricas de visualização não médicas</text>
+
+    <rect x="1080" y="400" width="270" height="210" rx="18" fill="#09253c" stroke="#38c8ff" stroke-width="3"/>
+    <text x="1110" y="438" fill="#62dcff" font-size="23" font-weight="700">WEB DASHBOARD</text>
+    <text x="1110" y="480" fill="#fff" font-size="17">Telemetria em tempo quase real</text>
+    <text x="1110" y="510" fill="#fff" font-size="17">Gráficos e alertas</text>
+    <text x="1110" y="540" fill="#fff" font-size="17">Pacote JSON / histórico</text>
+    <text x="1110" y="576" fill="#9bc2d8" font-size="14">Interface web de demonstração</text>
+
+    <rect x="430" y="650" width="510" height="135" rx="18" fill="#0c2639" stroke="#36c7ff" stroke-width="3"/>
+    <text x="465" y="692" fill="#62dcff" font-size="23" font-weight="700">TELEMETRY &amp; STORAGE</text>
+    <text x="465" y="728" fill="#fff" font-size="17">CSV · histórico de eventos · telemetry_v1_4.csv</text>
+    <text x="465" y="758" fill="#9dc1d6" font-size="15">Persistência de evidências e reprodutibilidade</text>
+
+    <text x="60" y="845" fill="#8faec1" font-size="15">Escopo: pesquisa e simulação · telemetria sintética · não é dispositivo médico · não é flight-qualified</text>
+  </g>
+
+  <g fill="none" stroke-width="5">
+    <path d="M295 265 H380" stroke="#35c9ff"/><path d="M295 545 H380" stroke="#b273ff"/>
+    <path d="M670 400 H745" stroke="#8de83f"/>
+    <path d="M1025 330 H1080" stroke="#ff9d45"/><path d="M1025 470 H1080" stroke="#45c9ff"/>
+    <path d="M885 550 V650" stroke="#ff9d45"/><path d="M555 650 V550" stroke="#45c9ff"/>
+    <path d="M940 718 H1080 V505" stroke="#45c9ff"/>
+  </g>
+  <g font-family="Arial,sans-serif" font-size="14" fill="#d7e7f2">
+    <text x="310" y="250">dados ambientais</text><text x="310" y="530">dados fisiológicos</text>
+    <text x="680" y="385">processamento</text><text x="1038" y="315">alertas / status</text>
+    <text x="1038" y="455">visualização</text><text x="900" y="630">registro</text>
+  </g>
+</svg>
