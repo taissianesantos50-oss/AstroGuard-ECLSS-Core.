@@ -2,6 +2,7 @@
 
 **Developer:** Taissiane Thais dos Santos  
 **Classification:** Private / Proprietary Research & Simulation Prototype
+Autonomous, low-resource embedded flight core research prototype for astronaut life-support and biomedical telemetry simulation.
 
 ## Access and intellectual property
 
