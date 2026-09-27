@@ -5,10 +5,11 @@ on:
     branches:
       - main
       - v1.4-human-health-monitoring
+      - v1.9-advanced-mission-health-analytics
   pull_request:
     branches:
       - main
-      - v1.4-human-health-monitoring
+      - v1.9-advanced-mission-health-analytics
 
 jobs:
   c-build-and-test:
@@ -18,14 +19,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Compile unit tests
+      - name: Compile health monitor unit tests
         run: |
           gcc -std=c11 -Wall -Wextra -Wpedantic \
             src/health_monitor.c tests/test_health_monitor.c \
             -I src -o test_health_monitor
 
-      - name: Run unit tests
+      - name: Run health monitor unit tests
         run: ./test_health_monitor
+
+      - name: Compile v1.9 analytics unit tests
+        run: |
+          gcc -std=c11 -Wall -Wextra -Wpedantic \
+            src/mission_health_analytics.c tests/test_mission_health_analytics.c \
+            -I src -lm -o test_mission_health_analytics
+
+      - name: Run v1.9 analytics unit tests
+        run: ./test_mission_health_analytics
 
       - name: Compile integrated simulation
         run: |
