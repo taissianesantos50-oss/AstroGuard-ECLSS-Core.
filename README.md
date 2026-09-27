@@ -2,9 +2,9 @@
 
 ## v1.4 — Human Health Monitoring Layer
 
-**Developer:** Taissiane Thais dos Santos  \
-**Repository:** AstroGuard-ECLSS-Core.  \
-**Version:** 1.4.0  \
+**Developer:** Taissiane Thais dos Santos  
+**Repository:** AstroGuard-ECLSS-Core.  
+**Version:** 1.4.0  
 **Branch:** v1.4-human-health-monitoring
 
 AstroGuard is a research and simulation prototype for long-duration space missions. Version 1.4 extends the environmental ECLSS layer with a deterministic human-health monitoring layer.
@@ -110,15 +110,18 @@ See:
 - `docs/v1.8_final_technical_documentation.md`
 - `docs/v1.8_presentation_outline.md`
 - `docs/v1.8_presentation.md`
+- `docs/v1.8_final_audit_report.md`
 - `docs/v1.8_submission_checklist.md`
+- `.github/workflows/astroguard-ci.yml`
 
-The v1.8 documentation explicitly separates implemented, simulated, documented and proposed/future capabilities. The presentation source record corresponds to the editable PowerPoint artifact generated for the final package.
+The v1.8 documentation explicitly separates implemented, simulated, documented and proposed/future capabilities. The repository now includes an automated CI workflow for the C build/test path and Python syntax validation.
 
 ### Evaluation
 
 See:
 
 - `docs/v1.4_evaluation_report.md`
+- `docs/v1.8_final_audit_report.md`
 - `docs/telemetry_protocol_v1_4.md`
 - `telemetry/sample_health_telemetry.csv`
 
@@ -129,3 +132,4 @@ See:
 - v1.6 — Web dashboard
 - v1.7 — Demonstration video
 - v1.8 — Final technical documentation and presentation
+- Next — Official architecture diagram, demonstration video and final submission evidence package
