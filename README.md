@@ -101,6 +101,18 @@ See:
 
 The dashboard is explicitly a simulation/research prototype. It does not diagnose astronauts, replace clinical systems, or issue flight commands.
 
+### v1.8 — Final technical documentation and presentation
+
+v1.8 consolidates the project into a reproducible technical and presentation package. It documents the complete version history, architecture, telemetry contract, verification evidence, scope boundaries, authorship traceability and final presentation structure.
+
+See:
+
+- `docs/v1.8_final_technical_documentation.md`
+- `docs/v1.8_presentation_outline.md`
+- `docs/v1.8_submission_checklist.md`
+
+The v1.8 documentation explicitly separates implemented, simulated, documented and proposed/future capabilities.
+
 ### Evaluation
 
 See:
@@ -115,4 +127,4 @@ See:
 - v1.5 — 3D mission visualization
 - v1.6 — Web dashboard
 - v1.7 — Demonstration video
-- v1.8 — Final documentation and presentation
+- v1.8 — Final technical documentation and presentation
