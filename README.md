@@ -1,13 +1,25 @@
 # AstroGuard-ECLSS-Core
 
-## v1.4 — Human Health Monitoring Layer
-
 **Developer:** Taissiane Thais dos Santos  
-**Repository:** AstroGuard-ECLSS-Core.  
-**Version:** 1.4.0  
-**Branch:** v1.4-human-health-monitoring
+**Classification:** Private / Proprietary Research & Simulation Prototype
 
-AstroGuard is a research and simulation prototype for long-duration space missions. Version 1.4 extends the environmental ECLSS layer with a deterministic human-health monitoring layer.
+## Access and intellectual property
+
+**PRIVATE / PROPRIETARY PROJECT — ALL RIGHTS RESERVED**
+
+Copyright (c) 2026 Taissiane Thais dos Santos. All rights reserved.
+
+Access to this repository does **not** grant permission to use, copy, reproduce, modify, distribute, publish, sublicense, commercialize, or create derivative works from the source code, documentation, designs, data, or other project materials.
+
+Any use, modification, redistribution, collaboration, evaluation beyond the access expressly granted, or other exploitation requires the **prior express written authorization of Taissiane Thais dos Santos**.
+
+See the `LICENSE` file for the complete proprietary terms.
+
+> Research / simulation prototype. Synthetic telemetry. Not a medical device and not flight-qualified software.
+
+## v1.8 — Final Technical Package
+
+AstroGuard is a research and simulation prototype for long-duration space missions. The project combines environmental ECLSS simulation with deterministic human-health monitoring, telemetry storage, 3D mission visualization and a browser-based mission dashboard.
 
 ### Architecture
 
@@ -19,7 +31,7 @@ Environment telemetry
 → Telemetry & Storage  
 → 3D mission visualization / Web dashboard
 
-### Implemented in v1.4
+### Implemented
 
 - Environmental simulation: O2, pressure, temperature and actuator states.
 - Human telemetry simulation: heart rate, SpO2, body temperature, respiratory rate, fatigue and well-being.
@@ -27,7 +39,10 @@ Environment telemetry
 - Integrated verification scenario that exercises all three states.
 - Combined mission telemetry CSV.
 - Unit and robustness tests.
-- Technical evaluation report and telemetry protocol documentation.
+- Automated GitHub Actions CI.
+- 3D mission visualization.
+- Web mission dashboard.
+- v1.8 architecture, technical documentation, audit, presentation and submission checklist.
 
 ### Build and run
 
@@ -58,17 +73,11 @@ This is a synthetic software-verification scenario designed to exercise the deci
 
 ### Scientific and safety scope
 
-All physiological values, scenario transitions and decision thresholds in this version are synthetic demonstration parameters. They are not medical measurements, clinical thresholds, Artemis mission measurements, or flight-qualified safety logic.
+All physiological values, scenario transitions and decision thresholds are synthetic demonstration parameters. They are not medical measurements, clinical thresholds, Artemis mission measurements, or flight-qualified safety logic.
 
-This repository does not claim medical diagnosis, clinical validation, or operational spacecraft certification.
-
-### Authorship
-
-**Taissiane Thais dos Santos** is the identified developer of this project.
+This repository does not claim medical diagnosis, clinical validation, medical-device status, operational spacecraft certification, real astronaut telemetry, or NASA/Artemis validation.
 
 ### v1.5 — 3D mission visualization
-
-The v1.5 visualization reads the v1.4 telemetry contract and renders an animated 3D mission telemetry trajectory. The visualization separates environmental stress from a human-stress representation and displays the current health state without changing the v1.4 decision engine.
 
 Install and run:
 
@@ -85,13 +94,11 @@ See:
 
 ### v1.6 — Web mission dashboard
 
-v1.6 adds a browser-based mission interface built on the verified v1.4 telemetry scenario and v1.5 visualization concepts. It provides a live-style dashboard with health state, environmental telemetry, human telemetry, visualization-only stress indices, a time-series chart, actuator-state display and the current telemetry packet.
-
 Open locally:
 
     dashboard/index.html
 
-No build step is required. The demonstration telemetry is embedded in dashboard/app.js, so the interface can be opened directly in a modern browser.
+The demonstration telemetry is embedded in `dashboard/app.js`, so the interface can be opened directly in a modern browser.
 
 See:
 
@@ -100,11 +107,18 @@ See:
 - `dashboard/app.js`
 - `docs/v1.6_web_dashboard.md`
 
-The dashboard is explicitly a simulation/research prototype. It does not diagnose astronauts, replace clinical systems, or issue flight commands.
+### v1.7 — Demonstration video package
 
-### v1.8 — Final technical documentation, architecture and presentation
+The repository contains the storyboard, capture checklist and final production script for the demonstration video.
 
-v1.8 consolidates the project into a reproducible technical and presentation package. It documents the complete version history, architecture, telemetry contract, verification evidence, scope boundaries, authorship traceability and final presentation structure.
+See:
+
+- `docs/v1.7_demonstration_video.md`
+- `docs/v1.7_video_storyboard.md`
+- `docs/v1.7_video_capture_checklist.md`
+- `docs/v1.7_final_video_production_script.md`
+
+### v1.8 — Documentation, architecture and presentation
 
 See:
 
@@ -115,18 +129,8 @@ See:
 - `docs/v1.8_presentation.md`
 - `docs/v1.8_final_audit_report.md`
 - `docs/v1.8_submission_checklist.md`
+- `docs/v1.8_final_submission_manifest.md`
 - `.github/workflows/astroguard-ci.yml`
-
-The repository includes automated CI for the C build/test path and Python syntax validation. The architecture diagram is maintained as a version-controlled SVG plus a textual architecture reference.
-
-### Evaluation
-
-See:
-
-- `docs/v1.4_evaluation_report.md`
-- `docs/v1.8_final_audit_report.md`
-- `docs/telemetry_protocol_v1_4.md`
-- `telemetry/sample_health_telemetry.csv`
 
 ### Roadmap
 
