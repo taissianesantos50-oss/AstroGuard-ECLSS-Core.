@@ -13,10 +13,11 @@ AstroGuard is a research and simulation prototype for long-duration space missio
 
 Environment telemetry  
 → Human physiological telemetry  
-→ Decision engine  
-→ Health state  
-→ CSV telemetry  
-→ 3D mission visualization
+→ Health Monitoring  
+→ Decision Engine  
+→ NORMAL / ATTENTION / CRITICAL  
+→ Telemetry & Storage  
+→ 3D mission visualization / Web dashboard
 
 ### Implemented in v1.4
 
@@ -94,27 +95,29 @@ No build step is required. The demonstration telemetry is embedded in dashboard/
 
 See:
 
-- dashboard/index.html
-- dashboard/styles.css
-- dashboard/app.js
-- docs/v1.6_web_dashboard.md
+- `dashboard/index.html`
+- `dashboard/styles.css`
+- `dashboard/app.js`
+- `docs/v1.6_web_dashboard.md`
 
 The dashboard is explicitly a simulation/research prototype. It does not diagnose astronauts, replace clinical systems, or issue flight commands.
 
-### v1.8 — Final technical documentation and presentation
+### v1.8 — Final technical documentation, architecture and presentation
 
 v1.8 consolidates the project into a reproducible technical and presentation package. It documents the complete version history, architecture, telemetry contract, verification evidence, scope boundaries, authorship traceability and final presentation structure.
 
 See:
 
 - `docs/v1.8_final_technical_documentation.md`
+- `docs/v1.8_architecture_diagram.md`
+- `docs/v1.8_architecture_diagram.svg`
 - `docs/v1.8_presentation_outline.md`
 - `docs/v1.8_presentation.md`
 - `docs/v1.8_final_audit_report.md`
 - `docs/v1.8_submission_checklist.md`
 - `.github/workflows/astroguard-ci.yml`
 
-The v1.8 documentation explicitly separates implemented, simulated, documented and proposed/future capabilities. The repository now includes an automated CI workflow for the C build/test path and Python syntax validation.
+The repository includes automated CI for the C build/test path and Python syntax validation. The architecture diagram is maintained as a version-controlled SVG plus a textual architecture reference.
 
 ### Evaluation
 
@@ -130,6 +133,7 @@ See:
 - v1.4 — Human Health Monitoring Layer
 - v1.5 — 3D mission visualization
 - v1.6 — Web dashboard
-- v1.7 — Demonstration video
-- v1.8 — Final technical documentation and presentation
-- Next — Official architecture diagram, demonstration video and final submission evidence package
+- v1.7 — Demonstration video specification
+- v1.8 — Final technical documentation, architecture and presentation
+- Next — Actual demonstration video and final submission evidence package
+- Future — v1.9 Advanced Mission Health Analytics
