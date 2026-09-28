@@ -6,10 +6,12 @@ on:
       - main
       - v1.4-human-health-monitoring
       - v1.9-advanced-mission-health-analytics
+      - v2.0-mission-risk-forecasting
   pull_request:
     branches:
       - main
       - v1.9-advanced-mission-health-analytics
+      - v2.0-mission-risk-forecasting
 
 jobs:
   c-build-and-test:
@@ -36,6 +38,15 @@ jobs:
 
       - name: Run v1.9 analytics unit tests
         run: ./test_mission_health_analytics
+
+      - name: Compile v2.0 decision-support unit tests
+        run: |
+          gcc -std=c11 -Wall -Wextra -Wpedantic \
+            src/health_monitor.c src/decision_support.c tests/test_decision_support.c \
+            -I src -o test_decision_support
+
+      - name: Run v2.0 decision-support unit tests
+        run: ./test_decision_support
 
       - name: Compile v1.4 baseline simulation
         run: |
