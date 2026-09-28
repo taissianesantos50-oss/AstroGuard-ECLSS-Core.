@@ -23,40 +23,27 @@ jobs:
 
       - name: Compile health monitor unit tests
         run: |
-          gcc -std=c11 -Wall -Wextra -Wpedantic \
-            src/health_monitor.c tests/test_health_monitor.c \
-            -I src -o test_health_monitor
-
+          gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c tests/test_health_monitor.c -I src -o test_health_monitor
       - name: Run health monitor unit tests
         run: ./test_health_monitor
 
       - name: Compile v1.9 analytics unit tests
         run: |
-          gcc -std=c11 -Wall -Wextra -Wpedantic \
-            src/mission_health_analytics.c tests/test_mission_health_analytics.c \
-            -I src -lm -o test_mission_health_analytics
-
+          gcc -std=c11 -Wall -Wextra -Wpedantic src/mission_health_analytics.c tests/test_mission_health_analytics.c -I src -lm -o test_mission_health_analytics
       - name: Run v1.9 analytics unit tests
         run: ./test_mission_health_analytics
 
       - name: Compile v2.0 decision-support unit tests
         run: |
-          gcc -std=c11 -Wall -Wextra -Wpedantic \
-            src/health_monitor.c src/decision_support.c tests/test_decision_support.c \
-            -I src -o test_decision_support
-
+          gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/decision_support.c tests/test_decision_support.c -I src -o test_decision_support
       - name: Run v2.0 decision-support unit tests
         run: ./test_decision_support
 
       - name: Compile v1.4 baseline simulation
         run: |
-          gcc -std=c11 -Wall -Wextra -Wpedantic \
-            src/health_monitor.c src/astroguard_v1_4.c \
-            -I src -o astroguard_v1_4
-
+          gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/astroguard_v1_4.c -I src -o astroguard_v1_4
       - name: Run v1.4 baseline simulation
         run: ./astroguard_v1_4
-
       - name: Verify v1.4 telemetry artifact
         run: |
           test -f telemetry_v1_4.csv
@@ -67,13 +54,9 @@ jobs:
 
       - name: Compile v1.9 integrated analytics simulation
         run: |
-          gcc -std=c11 -Wall -Wextra -Wpedantic \
-            src/health_monitor.c src/mission_health_analytics.c src/astroguard_v1_9.c \
-            -I src -lm -o astroguard_v1_9
-
+          gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/mission_health_analytics.c src/astroguard_v1_9.c -I src -lm -o astroguard_v1_9
       - name: Run v1.9 integrated analytics simulation
         run: ./astroguard_v1_9
-
       - name: Verify v1.9 telemetry and analytics outputs
         run: |
           test -f telemetry_v1_9.csv
@@ -85,17 +68,31 @@ jobs:
           grep -q ",CRITICAL$" telemetry_v1_9.csv
           grep -q ",DEGRADING$" mission_health_analytics_v1_9.csv
 
+      - name: Compile v2.0 integrated decision-support simulation
+        run: |
+          gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/decision_support.c src/mission_health_analytics.c src/astroguard_v2_0.c -I src -lm -o astroguard_v2_0
+      - name: Run v2.0 integrated decision-support simulation
+        run: ./astroguard_v2_0
+      - name: Verify v2.0 explainable telemetry outputs
+        run: |
+          test -f telemetry_v2_0.csv
+          test -f mission_health_analytics_v2_0.csv
+          test "$(wc -l < telemetry_v2_0.csv)" -eq 22
+          test "$(wc -l < mission_health_analytics_v2_0.csv)" -eq 2
+          head -1 telemetry_v2_0.csv | grep -q "ReasonCode,RecommendedAction,AttentionConditions,CriticalConditions"
+          grep -q "SPO2_BELOW_SIM_CRITICAL" telemetry_v2_0.csv
+          grep -q "FATIGUE_WELLBEING_SIM_CRITICAL" telemetry_v2_0.csv || true
+          grep -q "CONSULT_MISSION_PROCEDURE" telemetry_v2_0.csv
+          grep -q ",DEGRADING$" mission_health_analytics_v2_0.csv
+
   python-syntax:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Compile Python source
         run: python -m py_compile src/astroguard_v1_5.py
