@@ -5,10 +5,11 @@ on:
     branches:
       - main
       - v1.4-human-health-monitoring
+      - v1.9-advanced-mission-health-analytics
   pull_request:
     branches:
       - main
-      - v1.4-human-health-monitoring
+      - v1.9-advanced-mission-health-analytics
 
 jobs:
   c-build-and-test:
@@ -18,32 +19,60 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Compile unit tests
+      - name: Compile health monitor unit tests
         run: |
           gcc -std=c11 -Wall -Wextra -Wpedantic \
             src/health_monitor.c tests/test_health_monitor.c \
             -I src -o test_health_monitor
 
-      - name: Run unit tests
+      - name: Run health monitor unit tests
         run: ./test_health_monitor
 
-      - name: Compile integrated simulation
+      - name: Compile v1.9 analytics unit tests
+        run: |
+          gcc -std=c11 -Wall -Wextra -Wpedantic \
+            src/mission_health_analytics.c tests/test_mission_health_analytics.c \
+            -I src -lm -o test_mission_health_analytics
+
+      - name: Run v1.9 analytics unit tests
+        run: ./test_mission_health_analytics
+
+      - name: Compile v1.4 baseline simulation
         run: |
           gcc -std=c11 -Wall -Wextra -Wpedantic \
             src/health_monitor.c src/astroguard_v1_4.c \
             -I src -o astroguard_v1_4
 
-      - name: Run integrated simulation
+      - name: Run v1.4 baseline simulation
         run: ./astroguard_v1_4
 
-      - name: Verify telemetry artifact
+      - name: Verify v1.4 telemetry artifact
         run: |
           test -f telemetry_v1_4.csv
-          head -n 1 telemetry_v1_4.csv
           test "$(wc -l < telemetry_v1_4.csv)" -eq 22
           grep -q ",NORMAL$" telemetry_v1_4.csv
           grep -q ",ATTENTION$" telemetry_v1_4.csv
           grep -q ",CRITICAL$" telemetry_v1_4.csv
+
+      - name: Compile v1.9 integrated analytics simulation
+        run: |
+          gcc -std=c11 -Wall -Wextra -Wpedantic \
+            src/health_monitor.c src/mission_health_analytics.c src/astroguard_v1_9.c \
+            -I src -lm -o astroguard_v1_9
+
+      - name: Run v1.9 integrated analytics simulation
+        run: ./astroguard_v1_9
+
+      - name: Verify v1.9 telemetry and analytics outputs
+        run: |
+          test -f telemetry_v1_9.csv
+          test -f mission_health_analytics_v1_9.csv
+          test "$(wc -l < telemetry_v1_9.csv)" -eq 22
+          test "$(wc -l < mission_health_analytics_v1_9.csv)" -eq 2
+          grep -q ",NORMAL$" telemetry_v1_9.csv
+          grep -q ",ATTENTION$" telemetry_v1_9.csv
+          grep -q ",CRITICAL$" telemetry_v1_9.csv
+          grep -q ",DEGRADING$" mission_health_analytics_v1_9.csv
 
   python-syntax:
     runs-on: ubuntu-latest
