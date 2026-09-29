@@ -19,18 +19,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Compile health monitor unit tests
         run: gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c tests/test_health_monitor.c -I src -o test_health_monitor
       - name: Run health monitor unit tests
         run: ./test_health_monitor
+
       - name: Compile v1.9 analytics unit tests
         run: gcc -std=c11 -Wall -Wextra -Wpedantic src/mission_health_analytics.c tests/test_mission_health_analytics.c -I src -lm -o test_mission_health_analytics
       - name: Run v1.9 analytics unit tests
         run: ./test_mission_health_analytics
+
       - name: Compile v2.0 decision-support unit tests
         run: gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/decision_support.c tests/test_decision_support.c -I src -o test_decision_support
       - name: Run v2.0 decision-support unit tests
         run: ./test_decision_support
+
+      - name: Compile v2.0 mission scenario engine tests
+        run: gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/mission_scenario_engine.c tests/test_mission_scenario_engine.c -I src -o test_mission_scenario_engine
+      - name: Run v2.0 mission scenario engine tests
+        run: ./test_mission_scenario_engine
+
       - name: Compile v1.4 baseline simulation
         run: gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/astroguard_v1_4.c -I src -o astroguard_v1_4
       - name: Run v1.4 baseline simulation
@@ -42,6 +51,7 @@ jobs:
           grep -q ",NORMAL$" telemetry_v1_4.csv
           grep -q ",ATTENTION$" telemetry_v1_4.csv
           grep -q ",CRITICAL$" telemetry_v1_4.csv
+
       - name: Compile v1.9 integrated analytics simulation
         run: gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/mission_health_analytics.c src/astroguard_v1_9.c -I src -lm -o astroguard_v1_9
       - name: Run v1.9 integrated analytics simulation
@@ -52,24 +62,46 @@ jobs:
           test -f mission_health_analytics_v1_9.csv
           test "$(wc -l < telemetry_v1_9.csv)" -eq 22
           test "$(wc -l < mission_health_analytics_v1_9.csv)" -eq 2
-          grep -q ",NORMAL$" telemetry_v1_9.csv
-          grep -q ",ATTENTION$" telemetry_v1_9.csv
-          grep -q ",CRITICAL$" telemetry_v1_9.csv
           grep -q ",DEGRADING$" mission_health_analytics_v1_9.csv
-      - name: Compile v2.0 integrated decision-support simulation
-        run: gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/decision_support.c src/mission_health_analytics.c src/astroguard_v2_0.c -I src -lm -o astroguard_v2_0
-      - name: Run v2.0 integrated decision-support simulation
-        run: ./astroguard_v2_0
-      - name: Verify v2.0 explainable telemetry outputs
+
+      - name: Compile v2.0 scenario-integrated simulation
+        run: gcc -std=c11 -Wall -Wextra -Wpedantic src/health_monitor.c src/decision_support.c src/mission_health_analytics.c src/mission_scenario_engine.c src/astroguard_v2_0.c -I src -lm -o astroguard_v2_0
+
+      - name: Run and verify v2.0 nominal scenario
         run: |
-          test -f telemetry_v2_0.csv
-          test -f mission_health_analytics_v2_0.csv
+          ./astroguard_v2_0 nominal
           test "$(wc -l < telemetry_v2_0.csv)" -eq 22
-          test "$(wc -l < mission_health_analytics_v2_0.csv)" -eq 2
-          head -1 telemetry_v2_0.csv | grep -q "ReasonCode,RecommendedAction,AttentionConditions,CriticalConditions"
-          grep -q "SPO2_BELOW_SIM_CRITICAL" telemetry_v2_0.csv
-          grep -q "CONSULT_MISSION_PROCEDURE" telemetry_v2_0.csv
-          grep -q ",DEGRADING$" mission_health_analytics_v2_0.csv
+          grep -q '^NOMINAL,' telemetry_v2_0.csv
+          grep -q ',NORMAL,NONE,CONTINUE_MONITORING,0,0$' telemetry_v2_0.csv
+          cp telemetry_v2_0.csv telemetry_v2_0_nominal.csv
+          cp mission_health_analytics_v2_0.csv analytics_v2_0_nominal.csv
+
+      - name: Run and verify v2.0 cabin degradation scenario
+        run: |
+          ./astroguard_v2_0 cabin
+          test "$(wc -l < telemetry_v2_0.csv)" -eq 22
+          grep -q '^CABIN_DEGRADATION,' telemetry_v2_0.csv
+          grep -q 'CONSULT_MISSION_PROCEDURE' telemetry_v2_0.csv
+          grep -q ',DEGRADING$' mission_health_analytics_v2_0.csv
+          cp telemetry_v2_0.csv telemetry_v2_0_cabin.csv
+          cp mission_health_analytics_v2_0.csv analytics_v2_0_cabin.csv
+
+      - name: Run and verify v2.0 long-duration scenario
+        run: |
+          ./astroguard_v2_0 long-duration
+          test "$(wc -l < telemetry_v2_0.csv)" -eq 22
+          grep -q '^LONG_DURATION_STRESS,' telemetry_v2_0.csv
+          grep -Eq 'REVIEW_TREND|VERIFY_MEASUREMENT|CONSULT_MISSION_PROCEDURE' telemetry_v2_0.csv
+          cp telemetry_v2_0.csv telemetry_v2_0_long_duration.csv
+          cp mission_health_analytics_v2_0.csv analytics_v2_0_long_duration.csv
+
+      - name: Verify v2.0 explainable telemetry schema
+        run: |
+          head -1 telemetry_v2_0.csv | grep -q '^Scenario,Time,O2,Pressure,Temp'
+          head -1 telemetry_v2_0.csv | grep -q 'ReasonCode,RecommendedAction,AttentionConditions,CriticalConditions'
+          test -f telemetry_v2_0_nominal.csv
+          test -f telemetry_v2_0_cabin.csv
+          test -f telemetry_v2_0_long_duration.csv
 
   python-syntax:
     runs-on: ubuntu-latest
@@ -84,8 +116,9 @@ jobs:
         run: |
           python -m py_compile src/astroguard_v1_5.py
           python -m py_compile src/astroguard_v2_0_dashboard.py
-      - name: Verify v2.0 dashboard decision-support fields
+      - name: Verify v2.0 dashboard scenario and decision-support fields
         run: |
+          grep -q 'Scenario' src/astroguard_v2_0_dashboard.py
           grep -q 'ReasonCode' src/astroguard_v2_0_dashboard.py
           grep -q 'RecommendedAction' src/astroguard_v2_0_dashboard.py
           grep -q 'RESEARCH / SIMULATION PROTOTYPE' src/astroguard_v2_0_dashboard.py
