@@ -73,6 +73,7 @@ jobs:
           test "$(wc -l < telemetry_v2_0.csv)" -eq 22
           grep -q '^NOMINAL,' telemetry_v2_0.csv
           grep -q ',NORMAL,NONE,CONTINUE_MONITORING,0,0$' telemetry_v2_0.csv
+          grep -q ',STABLE$' mission_health_analytics_v2_0.csv
           cp telemetry_v2_0.csv telemetry_v2_0_nominal.csv
           cp mission_health_analytics_v2_0.csv analytics_v2_0_nominal.csv
 
@@ -81,7 +82,8 @@ jobs:
           ./astroguard_v2_0 cabin
           test "$(wc -l < telemetry_v2_0.csv)" -eq 22
           grep -q '^CABIN_DEGRADATION,' telemetry_v2_0.csv
-          grep -q 'CONSULT_MISSION_PROCEDURE' telemetry_v2_0.csv
+          grep -q ',ATTENTION,' telemetry_v2_0.csv
+          grep -Eq 'REVIEW_TREND|VERIFY_MEASUREMENT' telemetry_v2_0.csv
           grep -q ',DEGRADING$' mission_health_analytics_v2_0.csv
           cp telemetry_v2_0.csv telemetry_v2_0_cabin.csv
           cp mission_health_analytics_v2_0.csv analytics_v2_0_cabin.csv
@@ -91,6 +93,7 @@ jobs:
           ./astroguard_v2_0 long-duration
           test "$(wc -l < telemetry_v2_0.csv)" -eq 22
           grep -q '^LONG_DURATION_STRESS,' telemetry_v2_0.csv
+          grep -Eq ',ATTENTION,|,CRITICAL,' telemetry_v2_0.csv
           grep -Eq 'REVIEW_TREND|VERIFY_MEASUREMENT|CONSULT_MISSION_PROCEDURE' telemetry_v2_0.csv
           cp telemetry_v2_0.csv telemetry_v2_0_long_duration.csv
           cp mission_health_analytics_v2_0.csv analytics_v2_0_long_duration.csv
