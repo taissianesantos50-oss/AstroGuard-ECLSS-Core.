@@ -46,6 +46,16 @@ int main(void) {
     assert(mission_health_trend_name(TREND_IMPROVING)[0] == 'I');
     assert(mission_health_trend_name(TREND_DEGRADING)[0] == 'D');
 
+    const HealthTelemetry spike[] = {
+        {72,98,36.7f,16,0.1f,0.9f,HEALTH_NORMAL},
+        {72,88,36.7f,16,0.1f,0.9f,HEALTH_CRITICAL},
+        {72,98,36.7f,16,0.1f,0.9f,HEALTH_NORMAL}
+    };
+    assert(mission_health_analyze(spike, 3U, &result) == 0);
+    assert(result.trend == TREND_DEGRADING);
+    HealthTelemetry invalid = spike[0];
+    invalid.spo2_percent = NAN;
+    assert(mission_health_analyze(&invalid, 1U, &result) == -3);
     puts("mission_health_analytics: PASS");
     return 0;
 }
