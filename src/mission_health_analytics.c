@@ -1,3 +1,4 @@
+#include <math.h>
 #include "mission_health_analytics.h"
 
 static int severity(HealthStatus status) {
@@ -50,6 +51,7 @@ int mission_health_analyze(const HealthTelemetry *samples,
         if (severity(samples[i].status) < 0) {
             return -2;
         }
+        if (!isfinite(samples[i].heart_rate_bpm) || !isfinite(samples[i].spo2_percent) || !isfinite(samples[i].body_temp_c) || !isfinite(samples[i].respiratory_rate_bpm) || !isfinite(samples[i].fatigue_index) || !isfinite(samples[i].wellbeing_index) || samples[i].heart_rate_bpm < 0.0f || samples[i].respiratory_rate_bpm < 0.0f || samples[i].spo2_percent < 0.0f || samples[i].spo2_percent > 100.0f || samples[i].fatigue_index < 0.0f || samples[i].fatigue_index > 1.0f || samples[i].wellbeing_index < 0.0f || samples[i].wellbeing_index > 1.0f) return -3;
 
         hr_sum += samples[i].heart_rate_bpm;
         spo2_sum += samples[i].spo2_percent;
@@ -92,7 +94,7 @@ int mission_health_analyze(const HealthTelemetry *samples,
     out->mean_fatigue_index = (float)(fatigue_sum / (double)sample_count);
     out->mean_wellbeing_index = (float)(wellbeing_sum / (double)sample_count);
 
-    if (last_severity > first_severity) {
+    if (last_severity > first_severity || (last_severity == first_severity && out->critical_count > 0U && first_severity < 2)) {
         out->trend = TREND_DEGRADING;
     } else if (last_severity < first_severity) {
         out->trend = TREND_IMPROVING;
