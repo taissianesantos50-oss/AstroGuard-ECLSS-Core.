@@ -10,6 +10,7 @@ Date reviewed: 2026-10-13. Scope: GitHub Actions runs #36–#41, as evidenced by
 
 ## Run #37 — failure not yet diagnosed
 - GitHub Actions history shows failure following a dashboard change to display the active scenario.
+- Commit `51e94c3` modified the Python dashboard to require the `Scenario` telemetry column and display its value in the title. This is verified from the commit diff, but it does not identify the failed CI command.
 - The failing job/step logs were not supplied. Do not assert a root cause without those logs.
 - Subsequent green runs indicate later CI success, but do not independently establish the precise fix for #37.
 
