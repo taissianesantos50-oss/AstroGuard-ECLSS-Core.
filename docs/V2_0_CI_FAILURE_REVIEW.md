@@ -21,12 +21,13 @@ Date reviewed: 2026-10-13. Scope: GitHub Actions runs #36–#41, as evidenced by
 - The next run (#39) was green with commit title `ci(v2.0): align cabin scenario assertions with progressive degradation`. This supports an over-strict expected action in the old test. The screenshot alone does not expose which individual shell command returned 1.
 
 ## Validation evidence and limitations
+- GitHub Actions run #49 (run ID `38500813121`) completed successfully on the documentation PR head `0c195454faa3afa82174e8d68e47bdd8aa05699a`: both `c-build-and-test` and `python-syntax` passed, including v2.0 nominal, cabin degradation, long-duration, telemetry schema, and dashboard field checks. This is CI validation of the PR head, not a v2.0 merge to `main` or production certification.
 - Screenshots show v2.0 runs #39, #40, and #41 succeeded on the v2.0 development branch.
 - Screenshots show run #46 succeeded on `main` following the v1.9 PR #3 merge; this **does not** imply v2.0 was merged to `main`.
-- No new v2.0 CI run or independent end-to-end validation was performed as part of this review.
+- The PR-triggered run #49 provides updated CI evidence; no independent flight/medical or production end-to-end validation was performed.
 - Do not merge v2.0, publish a release, or claim flight readiness solely on this evidence.
 
 ## Before a v2.0 release
 1. Confirm the corrected v2.0 build includes the scenario-engine module on the exact release candidate.
-2. Confirm a fresh green CI run on the exact v2.0 release candidate, including all three scenarios and dashboard checks.
+2. Run CI again on the exact v2.0 release candidate after any further changes (run #49 passed on the documentation PR head).
 3. Review diffs and release notes, verify private-repository permissions, and explicitly approve any merge or tag.
