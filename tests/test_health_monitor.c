@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <math.h>
 #include <string.h>
 #include "../src/health_monitor.h"
 
@@ -24,5 +25,14 @@ int main(void)
     assert(strcmp(health_status_name(HEALTH_CRITICAL),"CRITICAL")==0);
     assert(strcmp(health_status_name((HealthStatus)99),"UNKNOWN")==0);
 
+    HealthTelemetry invalid = normal;
+    invalid.spo2_percent = NAN;
+    assert(evaluate_health(&invalid) == HEALTH_CRITICAL);
+    invalid = normal;
+    invalid.fatigue_index = INFINITY;
+    assert(evaluate_health(&invalid) == HEALTH_CRITICAL);
+    invalid = normal;
+    invalid.spo2_percent = 101.0f;
+    assert(evaluate_health(&invalid) == HEALTH_CRITICAL);
     return 0;
 }

@@ -6,10 +6,12 @@ on:
       - main
       - v1.4-human-health-monitoring
       - v1.9-advanced-mission-health-analytics
+      - 'fix/**'
   pull_request:
     branches:
       - main
       - v1.9-advanced-mission-health-analytics
+  workflow_dispatch:
 
 jobs:
   c-build-and-test:

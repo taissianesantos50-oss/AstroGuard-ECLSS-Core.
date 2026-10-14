@@ -1,3 +1,4 @@
+#include <math.h>
 #include "health_monitor.h"
 
 /* AstroGuard v1.4 Human Health Monitoring Layer.
@@ -8,6 +9,7 @@ HealthStatus evaluate_health(const HealthTelemetry *h)
 {
     int attention=0, critical=0;
     if (!h) return HEALTH_CRITICAL;
+    if (!isfinite(h->heart_rate_bpm) || !isfinite(h->spo2_percent) || !isfinite(h->body_temp_c) || !isfinite(h->respiratory_rate_bpm) || !isfinite(h->fatigue_index) || !isfinite(h->wellbeing_index) || h->heart_rate_bpm < 0.0f || h->respiratory_rate_bpm < 0.0f || h->spo2_percent < 0.0f || h->spo2_percent > 100.0f || h->fatigue_index < 0.0f || h->fatigue_index > 1.0f || h->wellbeing_index < 0.0f || h->wellbeing_index > 1.0f) return HEALTH_CRITICAL;
     if (h->heart_rate_bpm < 50.0f || h->heart_rate_bpm > 120.0f) attention++;
     if (h->spo2_percent < 94.0f) attention++;
     if (h->body_temp_c < 35.5f || h->body_temp_c > 38.0f) attention++;
