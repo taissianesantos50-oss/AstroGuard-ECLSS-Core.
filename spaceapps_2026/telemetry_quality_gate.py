@@ -35,7 +35,7 @@ def validate(path):
                 if key is None or value is None:
                     continue
                 stripped = value.strip()
-                if stripped.lower() in {"nan", "+nan", "-nan", "inf", "+inf", "-inf", "infinity"}:
+                if stripped.lower() in {"nan", "+nan", "-nan", "inf", "+inf", "-inf", "infinity", "+infinity", "-infinity"}:
                     issues.append(f"line_{line}:{key}:nonfinite_literal")
                 elif stripped and _looks_numeric(stripped):
                     try:
