@@ -35,6 +35,12 @@ class TelemetryCLIIntegrationTests(unittest.TestCase):
         self.assertFalse(report["passed"])
         self.assertTrue(report["issues"])
 
+    def test_malformed_quoted_csv_fails_with_report(self):
+        completed, report = self.invoke('time,oxygen\\n0,"20.9\\n')
+        self.assertEqual(completed.returncode, 1)
+        self.assertFalse(report["passed"])
+        self.assertTrue(any("read_error" in issue for issue in report["issues"]))
+
     def test_same_input_produces_same_hash(self):
         _, first = self.invoke("time,oxygen\n0,20.9\n")
         _, second = self.invoke("time,oxygen\n0,20.9\n")
