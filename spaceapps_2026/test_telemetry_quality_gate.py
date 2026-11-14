@@ -23,6 +23,15 @@ class TelemetryGateTests(unittest.TestCase):
         self.assertFalse(result["passed"])
         self.assertTrue(any("nonfinite" in issue for issue in result["issues"]))
 
+    def test_infinite_numeric_value(self):
+        self.assertFalse(self.check("time,oxygen\n0,1e999\n")["passed"])
+
+    def test_extra_column(self):
+        self.assertFalse(self.check("a,b\n1,2,3\n")["passed"])
+
+    def test_blank_header(self):
+        self.assertFalse(self.check("a,\n1,2\n")["passed"])
+
     def test_ragged_row(self):
         self.assertFalse(self.check("a,b\n1\n")["passed"])
 
