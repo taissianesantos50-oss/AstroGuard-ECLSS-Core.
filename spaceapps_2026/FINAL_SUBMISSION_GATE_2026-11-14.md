@@ -14,3 +14,8 @@
 
 ## Status
 NOT READY FOR FINAL EXTERNAL SUBMISSION. Automated CI passing is necessary but not sufficient. Do not claim the full project is finished or externally submitted.
+
+## Review update
+- Source files for the C simulation, 3D visualization, browser dashboard, architecture and presentation outline were individually confirmed present on the delivery branch.
+- This is a source-presence check, not an execution or recording check.
+- Final rendered video and actual application screen capture remain unverified. Do not mark these complete without genuine output.
