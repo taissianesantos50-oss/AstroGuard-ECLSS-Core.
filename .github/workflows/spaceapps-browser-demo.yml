@@ -1,0 +1,31 @@
+name: Space Apps browser demonstration
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  browser-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install capture dependencies
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+      - name: Capture browser demonstration and verify states
+        run: python spaceapps_2026/render_dashboard_demo.py
+      - name: Upload private demonstration evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-dashboard-demo
+          path: spaceapps_2026/artifacts/dashboard_demo.mp4
+          if-no-files-found: error
+          retention-days: 7
