@@ -26,6 +26,10 @@ class TelemetryGateTests(unittest.TestCase):
     def test_infinite_numeric_value(self):
         self.assertFalse(self.check("time,oxygen\n0,1e999\n")["passed"])
 
+    def test_signed_infinity_literal(self):
+        self.assertFalse(self.check("time,oxygen\n0,-Infinity\n")["passed"])
+        self.assertFalse(self.check("time,oxygen\n0,+Infinity\n")["passed"])
+
     def test_extra_column(self):
         self.assertFalse(self.check("a,b\n1,2,3\n")["passed"])
 
