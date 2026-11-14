@@ -8,6 +8,8 @@ on:
 jobs:
   browser-demo:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.56.0-noble
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -17,9 +19,8 @@ jobs:
       - name: Install capture dependencies
         run: |
           python -m pip install playwright==1.56.0
-          python -m playwright install --with-deps chromium
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          apt-get update
+          apt-get install -y ffmpeg
       - name: Capture browser demonstration and verify states
         run: python spaceapps_2026/render_dashboard_demo.py
       - name: Upload private demonstration evidence
