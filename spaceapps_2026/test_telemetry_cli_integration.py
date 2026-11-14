@@ -36,7 +36,7 @@ class TelemetryCLIIntegrationTests(unittest.TestCase):
         self.assertTrue(report["issues"])
 
     def test_malformed_quoted_csv_fails_with_report(self):
-        completed, report = self.invoke('time,oxygen\\n0,"20.9\\n')
+        completed, report = self.invoke('time,oxygen\n0,"20.9\n')
         self.assertEqual(completed.returncode, 1)
         self.assertFalse(report["passed"])
         self.assertTrue(any("read_error" in issue for issue in report["issues"]))
