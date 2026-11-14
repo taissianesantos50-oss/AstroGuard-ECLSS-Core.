@@ -39,6 +39,11 @@ class TelemetryGateTests(unittest.TestCase):
     def test_ragged_row(self):
         self.assertFalse(self.check("a,b\n1\n")["passed"])
 
+    def test_unclosed_quoted_record(self):
+        import csv
+        with self.assertRaises(csv.Error):
+            self.check('time,oxygen\\n0,"20.9\\n')
+
     def test_empty_data(self):
         self.assertFalse(self.check("a,b\n")["passed"])
 
