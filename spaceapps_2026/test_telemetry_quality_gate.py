@@ -47,6 +47,10 @@ class TelemetryGateTests(unittest.TestCase):
     def test_empty_data(self):
         self.assertFalse(self.check("a,b\n")["passed"])
 
+    def test_quoted_comma_is_valid(self):
+        result = self.check('time,notes\\n0,"synthetic, nominal"\\n')
+        self.assertTrue(result["passed"])
+
     def test_duplicate_header(self):
         self.assertFalse(self.check("a,a\n1,2\n")["passed"])
 
