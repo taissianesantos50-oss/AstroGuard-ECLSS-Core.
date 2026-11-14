@@ -42,7 +42,7 @@ class TelemetryGateTests(unittest.TestCase):
     def test_unclosed_quoted_record(self):
         import csv
         with self.assertRaises(csv.Error):
-            self.check('time,oxygen\\n0,"20.9\\n')
+            self.check('time,oxygen\n0,"20.9\n')
 
     def test_empty_data(self):
         self.assertFalse(self.check("a,b\n")["passed"])
