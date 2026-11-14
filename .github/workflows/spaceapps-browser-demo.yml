@@ -1,0 +1,55 @@
+name: Space Apps browser demonstration
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  browser-demo:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.56.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install capture dependencies
+        run: |
+          python -m pip install playwright==1.56.0
+          apt-get update
+          apt-get install -y ffmpeg
+      - name: Capture browser demonstration and verify states
+        run: python spaceapps_2026/render_dashboard_demo.py
+      - name: Upload private demonstration evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-dashboard-demo
+          path: spaceapps_2026/artifacts/dashboard_demo.mp4
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Package private project source and demonstration
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          root = Path.cwd()
+          out = root / "spaceapps_2026" / "artifacts" / "AstroGuard_private_delivery.zip"
+          with ZipFile(out, "w", ZIP_DEFLATED) as z:
+              for p in root.rglob("*"):
+                  if not p.is_file() or ".git" in p.parts or "__pycache__" in p.parts:
+                      continue
+                  if p.suffix == ".png" and "artifacts" in p.parts:
+                      continue
+                  if p == out:
+                      continue
+                  z.write(p, p.relative_to(root))
+          print("Delivery ZIP bytes:", out.stat().st_size)
+          PY
+      - name: Upload private project delivery
+        uses: actions/upload-artifact@v4
+        with:
+          name: astroguard-private-project-delivery
+          path: spaceapps_2026/artifacts/AstroGuard_private_delivery.zip
+          if-no-files-found: error
+          retention-days: 7

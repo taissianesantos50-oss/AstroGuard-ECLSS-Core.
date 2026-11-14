@@ -1,0 +1,40 @@
+name: Space Apps synthetic telemetry quality gate
+
+on:
+  push:
+    branches: [spaceapps-2026-deliverable]
+  pull_request:
+    paths:
+      - 'spaceapps_2026/**'
+      - '.github/workflows/spaceapps-telemetry-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-quality-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run deterministic offline unit tests
+        run: python3 -m unittest discover -s spaceapps_2026 -p 'test_*.py' -v
+      - name: Generate and validate synthetic fixture
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/spaceapps-evidence"
+          printf 'time,oxygen\n0,20.9\n1,20.8\n' > "$RUNNER_TEMP/spaceapps-evidence/synthetic.csv"
+          python3 spaceapps_2026/telemetry_quality_gate.py \
+            "$RUNNER_TEMP/spaceapps-evidence/synthetic.csv" \
+            --output "$RUNNER_TEMP/spaceapps-evidence/quality-report.json"
+          python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); assert r["passed"] and r["row_count"] == 2' \
+            "$RUNNER_TEMP/spaceapps-evidence/quality-report.json"
+      - name: Upload non-sensitive synthetic verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spaceapps-synthetic-quality-evidence
+          path: ${{ runner.temp }}/spaceapps-evidence/quality-report.json
+          if-no-files-found: warn
+          retention-days: 7
