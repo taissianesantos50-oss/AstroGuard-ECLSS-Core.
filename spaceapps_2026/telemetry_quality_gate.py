@@ -19,7 +19,7 @@ def validate(path):
     rows = 0
     fields = []
     with source.open("r", encoding="utf-8-sig", newline="") as stream:
-        reader = csv.DictReader(stream)
+        reader = csv.DictReader(stream, restval=None, restkey=None, dialect="excel")
         fields = reader.fieldnames or []
         if not fields:
             issues.append("missing_header")
