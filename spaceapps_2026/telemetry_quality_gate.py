@@ -14,7 +14,10 @@ from pathlib import Path
 
 def validate(path):
     source = Path(path)
-    raw = source.read_bytes()
+    digest = hashlib.sha256()
+    with source.open("rb") as binary:
+        for chunk in iter(lambda: binary.read(1024 * 1024), b""):
+            digest.update(chunk)
     issues = []
     rows = 0
     fields = []
@@ -49,7 +52,7 @@ def validate(path):
         "schema_version": "1.0",
         "purpose": "synthetic_telemetry_quality_only",
         "input_file": source.name,
-        "sha256": hashlib.sha256(raw).hexdigest(),
+        "sha256": digest.hexdigest(),
         "row_count": rows,
         "columns": fields,
         "passed": not issues,
